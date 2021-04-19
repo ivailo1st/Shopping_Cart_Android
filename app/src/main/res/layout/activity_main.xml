@@ -71,10 +71,10 @@
                 android:layout_height="37dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
+                android:autofillHints=""
                 android:ems="2"
-                android:inputType="textPersonName"
-                android:textSize="12sp"
-                android:autofillHints="" />
+                android:inputType="number"
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/ADD_Button"
@@ -144,7 +144,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/item_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1" />
 
         <LinearLayout
