@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:layout_height="match_parent"
+        android:key="greetingName"
+        android:summary="Change Greeting Name"
+        android:title="Greeting name" />
+
+</PreferenceScreen>

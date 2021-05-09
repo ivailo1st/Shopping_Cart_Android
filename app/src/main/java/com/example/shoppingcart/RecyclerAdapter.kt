@@ -1,18 +1,15 @@
 package com.example.shoppingcart
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.widget.TextView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
-
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 
-class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
+class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var itemTitle: TextView
         var itemQuantity: TextView
@@ -27,6 +24,7 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
                 var position: Int = getAdapterPosition()
 
                 Snackbar.make(v,"Click detected on item $position", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
+
             }
 
             buttonDelete.setOnClickListener{v: View ->
@@ -46,12 +44,11 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
                 .inflate(R.layout.item_layout, viewGroup, false)
         return ViewHolder(v)
     }
-
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        viewHolder.itemTitle.text = MainActivity.itemValues.items[i].Title
-        viewHolder.itemQuantity.text = MainActivity.itemValues.items[i].Quantity
+        viewHolder.itemTitle.text = Repository.items[i].title
+        viewHolder.itemQuantity.text = Repository.items[i].quantity.toString()
     }
     override fun getItemCount(): Int {
-        return MainActivity.itemValues.items.size
+        return Repository.items.size
     }
 }

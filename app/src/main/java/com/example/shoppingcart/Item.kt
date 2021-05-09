@@ -1,6 +1,5 @@
 package com.example.shoppingcart
 
-class Item (Title:String,Quantity:String) {
-    var Title: String = Title
-    var Quantity: String = Quantity
-}
+import com.google.firebase.firestore.Exclude
+
+data class Item (var title:String = "", var quantity:Int = 0, @get:Exclude var id: String="")
