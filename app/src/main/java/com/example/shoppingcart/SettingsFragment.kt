@@ -15,6 +15,7 @@ class SettingsFragment: PreferenceFragmentCompat () {
 
         if (signaturePreference != null) {
             Repository.name = signaturePreference.text
+
         }
     }
 }

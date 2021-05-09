@@ -7,9 +7,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseApp
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -50,8 +52,7 @@ class MainActivity : AppCompatActivity() {
         deleteAllButton.setOnClickListener{v: View->
             val dialog = ConformationDialog()
             dialog.show(supportFragmentManager, "dialog")
-
-            (adapter as RecyclerAdapter).notifyDataSetChanged()
+            Toast.makeText(applicationContext,"Refresh is required to see data change", Toast.LENGTH_LONG).show()
         }
 
         sortItemName.setOnClickListener { v: View? ->

@@ -20,7 +20,6 @@
             android:id="@+id/confirmMessage"
             android:layout_width="251dp"
             android:layout_height="56dp"
-            android:layout_marginTop="32dp"
             android:gravity="center"
             android:text="Are you sure you want to delete all of the items?"
             android:textSize="18sp"

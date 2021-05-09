@@ -23,7 +23,6 @@ object Repository {
         Toast.makeText(context,"Hello and Welcome $name ", Toast.LENGTH_SHORT).show()
     }
 
-
     fun addEventListener(){
         val dbCollection = db.collection("items")
         dbCollection.addSnapshotListener { value, e ->
