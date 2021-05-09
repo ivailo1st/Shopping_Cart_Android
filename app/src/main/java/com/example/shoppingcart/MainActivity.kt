@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         val addButton = findViewById<Button>(R.id.ADD_Button)
         val deleteAllButton = findViewById<Button>(R.id.Delete_All_button)
+        val shareButton = findViewById<Button>(R.id.Share_List_button)
 
         val sortItemName = findViewById<Button>(R.id.Name_Sort)
         val sortItemQuantity = findViewById<Button>(R.id.Quantity_Sort)
@@ -55,6 +56,20 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext,"Refresh is required to see data change", Toast.LENGTH_LONG).show()
         }
 
+        shareButton.setOnClickListener { v: View->
+            var data = Repository.sendInfo()
+
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, " Shopping cart: \n$data")
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+
+        }
+
         sortItemName.setOnClickListener { v: View? ->
             Repository.items.sortBy { it.title }
             (adapter as RecyclerAdapter).notifyDataSetChanged()
@@ -64,7 +79,6 @@ class MainActivity : AppCompatActivity() {
             Repository.items.sortByDescending { it.quantity }
             (adapter as RecyclerAdapter).notifyDataSetChanged()
         }
-
 
         Repository.greetUser(applicationContext)
     }

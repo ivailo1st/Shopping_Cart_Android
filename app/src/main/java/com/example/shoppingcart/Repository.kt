@@ -1,11 +1,14 @@
 package com.example.shoppingcart
 
 import android.content.Context
+import android.content.Intent
 import android.net.sip.SipSession
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
+
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -21,6 +24,14 @@ object Repository {
 
     fun greetUser(context:Context){
         Toast.makeText(context,"Hello and Welcome $name ", Toast.LENGTH_SHORT).show()
+    }
+
+    fun sendInfo(): String {
+        var result = ""
+        for(item in items){
+            result += "Title: " + item.title + " Quantity: " + item.quantity + "\n"
+        }
+        return result
     }
 
     fun addEventListener(){
