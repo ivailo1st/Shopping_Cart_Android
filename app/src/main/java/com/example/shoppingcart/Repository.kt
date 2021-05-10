@@ -1,17 +1,9 @@
 package com.example.shoppingcart
 
 import android.content.Context
-import android.content.Intent
-import android.net.sip.SipSession
 import android.util.Log
-import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 
-import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -20,6 +12,7 @@ object Repository {
 
     var name = "user"
     val db = Firebase.firestore
+    var oldItemPosition = 0
     var items = mutableListOf<Item>()
 
     fun greetUser(context:Context){
@@ -62,6 +55,16 @@ object Repository {
             }
             .addOnFailureListener{ e -> Log.w("Error","Error adding document", e)}
         items.add(newItem)
+    }
+
+    fun updateProduct(newName: String, newQuantity:Int){
+        val item = items[oldItemPosition]
+        db.collection("items").document(item.id).update("title",newName,"quantity",newQuantity).addOnSuccessListener {
+            Log.d("Snapshot","DocumentSnapshot with id: ${item.id} successfully updated!")
+
+        }
+        item.title = newName
+        item.quantity = newQuantity
     }
 
     fun removeProduct (index: Int){

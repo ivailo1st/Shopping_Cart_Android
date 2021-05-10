@@ -2,6 +2,7 @@ package com.example.shoppingcart
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -11,12 +12,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseApp
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RecyclerAdapter.OnItemClickListener {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         item_view.layoutManager = layoutManager
 
-        adapter = RecyclerAdapter()
+        adapter = RecyclerAdapter(this)
         item_view.adapter = adapter
 
         addButton.setOnClickListener{v: View->
@@ -82,6 +82,14 @@ class MainActivity : AppCompatActivity() {
 
         Repository.greetUser(applicationContext)
     }
+    override fun UpdateItem(position:Int){
+        Repository.oldItemPosition = position
+        Log.d("Position","Item position $position")
+        val dialog = editItem()
+        dialog.show(supportFragmentManager, "itemchange")
+        Toast.makeText(applicationContext,"Refresh is required to see data change", Toast.LENGTH_LONG).show()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)

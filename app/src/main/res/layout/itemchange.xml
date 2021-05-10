@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/conformationMainLayout"
@@ -14,49 +13,65 @@
         android:background="#00FFFFFF"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="10dp"
+        android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/changeItemNameText"
-            android:layout_width="251dp"
-            android:layout_height="56dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:text="Are you sure you want to delete all of the items?"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:autoSizeTextType="uniform" />
-
         <LinearLayout
-            android:id="@+id/confromationSecondaryLayout"
+            android:id="@+id/changeSecondaryLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/confirmButton"
+            <EditText
+                android:id="@+id/editTextChangeItemName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Yes"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="New Name"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/editTextChangeNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="New Quantity"
+                android:inputType="number" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/confirmChangeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm"
                 android:textSize="12sp"
                 app:backgroundTint="#E1A5F0"
                 app:cornerRadius="15dp" />
 
             <Button
-                android:id="@+id/cancelButton"
+                android:id="@+id/cancelChangeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="75dp"
                 android:layout_marginLeft="75dp"
-                android:text="No"
+                android:text="Cancel"
                 android:textSize="12sp"
                 app:backgroundTint="#E1A5F0"
                 app:cornerRadius="15dp" />
+
         </LinearLayout>
 
     </LinearLayout>

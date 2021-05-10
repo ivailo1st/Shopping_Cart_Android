@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 
 
-class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter(var listener: OnItemClickListener? = null) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+    interface OnItemClickListener{
+        fun UpdateItem(position:Int)
+    }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var itemTitle: TextView
         var itemQuantity: TextView
@@ -22,8 +25,10 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
             itemView.setOnClickListener{ v: View ->
                 var position: Int = getAdapterPosition()
+                Snackbar.make(v,"Click detected on item ${itemTitle.text}", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
 
-                Snackbar.make(v,"Click detected on item $position", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
+
+                listener?.UpdateItem(position)
 
             }
 
