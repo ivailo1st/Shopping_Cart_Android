@@ -68,7 +68,6 @@ class MainActivity : AppCompatActivity(), RecyclerAdapter.OnItemClickListener {
         deleteAllButton.setOnClickListener{
             val dialog = ConformationDialog()
             dialog.show(supportFragmentManager, "dialog")
-            Toast.makeText(applicationContext,"Refresh is required to see data change", Toast.LENGTH_LONG).show()
         }
 
         shareButton.setOnClickListener {
@@ -99,10 +98,8 @@ class MainActivity : AppCompatActivity(), RecyclerAdapter.OnItemClickListener {
     }
     override fun UpdateItem(position:Int){
         Repository.oldItemPosition = position
-        Log.d("Position","Item position $position")
         val dialog = editItem()
         dialog.show(supportFragmentManager, "itemchange")
-        Toast.makeText(applicationContext,"Refresh is required to see data change", Toast.LENGTH_LONG).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
