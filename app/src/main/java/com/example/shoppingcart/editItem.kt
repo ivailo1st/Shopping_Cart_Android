@@ -9,7 +9,6 @@ import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.itemchange.view.*
 
 class editItem() : DialogFragment(){
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -20,11 +19,10 @@ class editItem() : DialogFragment(){
         view.confirmChangeButton.setOnClickListener {
             dismiss()
 
-            var newName = dialog?.findViewById<EditText>(R.id.editTextChangeItemName)
-            var newQuantity = dialog?.findViewById<EditText>(R.id.editTextChangeNumber)
+            val newName = dialog?.findViewById<EditText>(R.id.editTextChangeItemName)
+            val newQuantity = dialog?.findViewById<EditText>(R.id.editTextChangeNumber)
 
             Repository.updateProduct(newName?.text.toString(), newQuantity?.text.toString().toInt())
-            RecyclerAdapter().notifyDataSetChanged()
 
 
         }

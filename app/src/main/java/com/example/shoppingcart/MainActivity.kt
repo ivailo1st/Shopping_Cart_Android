@@ -5,14 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -21,12 +22,13 @@ class MainActivity : AppCompatActivity(), RecyclerAdapter.OnItemClickListener {
     private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Repository.addEventListener()
 
         super.onCreate(savedInstanceState)
+
+        val dbCollection = Repository.db.collection("items")
+
         setContentView(R.layout.activity_main)
         FirebaseApp.initializeApp(applicationContext)
-
 
         val addButton = findViewById<Button>(R.id.ADD_Button)
         val deleteAllButton = findViewById<Button>(R.id.Delete_All_button)
@@ -35,8 +37,8 @@ class MainActivity : AppCompatActivity(), RecyclerAdapter.OnItemClickListener {
         val sortItemName = findViewById<Button>(R.id.Name_Sort)
         val sortItemQuantity = findViewById<Button>(R.id.Quantity_Sort)
 
-        var inputTitle = findViewById<EditText>(R.id.Name_Input)
-        var inputQuantity = findViewById<EditText>(R.id.Quantity_Input)
+        val inputTitle = findViewById<EditText>(R.id.Name_Input)
+        val inputQuantity = findViewById<EditText>(R.id.Quantity_Input)
 
         layoutManager = LinearLayoutManager(this)
         item_view.layoutManager = layoutManager
@@ -44,20 +46,33 @@ class MainActivity : AppCompatActivity(), RecyclerAdapter.OnItemClickListener {
         adapter = RecyclerAdapter(this)
         item_view.adapter = adapter
 
-        addButton.setOnClickListener{v: View->
-            Repository.addProduct(inputTitle.text.toString(),inputQuantity.text.toString().toInt())
+        dbCollection.addSnapshotListener { value, e ->
+            if (e != null) {
+                Log.d("Event Listener DB", "Listen failed.", e)
+                return@addSnapshotListener
+            }
+            Repository.items.clear()
+            for (doc in value!!) {
+                val item = doc.toObject<Item>()
+                item.id = doc.id
+                Repository.items.add(item)
+            }
             (adapter as RecyclerAdapter).notifyDataSetChanged()
-
         }
 
-        deleteAllButton.setOnClickListener{v: View->
+        addButton.setOnClickListener{
+            Repository.addProduct(inputTitle.text.toString(), if(inputQuantity.text.toString() != ""){inputQuantity.text.toString().toInt()} else{0})
+            (adapter as RecyclerAdapter).notifyDataSetChanged()
+        }
+
+        deleteAllButton.setOnClickListener{
             val dialog = ConformationDialog()
             dialog.show(supportFragmentManager, "dialog")
             Toast.makeText(applicationContext,"Refresh is required to see data change", Toast.LENGTH_LONG).show()
         }
 
-        shareButton.setOnClickListener { v: View->
-            var data = Repository.sendInfo()
+        shareButton.setOnClickListener {
+            val data = Repository.sendInfo()
 
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
@@ -70,12 +85,12 @@ class MainActivity : AppCompatActivity(), RecyclerAdapter.OnItemClickListener {
 
         }
 
-        sortItemName.setOnClickListener { v: View? ->
+        sortItemName.setOnClickListener {
             Repository.items.sortBy { it.title }
             (adapter as RecyclerAdapter).notifyDataSetChanged()
         }
 
-        sortItemQuantity.setOnClickListener { v: View? ->
+        sortItemQuantity.setOnClickListener {
             Repository.items.sortByDescending { it.quantity }
             (adapter as RecyclerAdapter).notifyDataSetChanged()
         }
@@ -91,19 +106,17 @@ class MainActivity : AppCompatActivity(), RecyclerAdapter.OnItemClickListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.action_settings){
+        return if(item.itemId == R.id.action_settings){
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
-            return true;
-        }
-        else{
-            return super.onOptionsItemSelected(item)
+            true
+        } else{
+            super.onOptionsItemSelected(item)
         }
     }
 }

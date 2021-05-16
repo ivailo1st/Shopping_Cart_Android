@@ -1,21 +1,22 @@
 package com.example.shoppingcart
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
+import android.util.Log
 import androidx.preference.EditTextPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+
+
 
 class SettingsFragment: PreferenceFragmentCompat () {
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
-        val signaturePreference: EditTextPreference? = findPreference("greetingName")
-
-        if (signaturePreference != null) {
-            Repository.name = signaturePreference.text
-
+        val newGreetingName: EditTextPreference? = findPreference("greetingName")
+        newGreetingName!!.onPreferenceChangeListener = Preference.OnPreferenceChangeListener {
+            preference, newValue ->
+                Repository.name = newValue.toString()
+                false
         }
     }
 }
