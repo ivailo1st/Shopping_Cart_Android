@@ -19,8 +19,6 @@ class ConformationDialog() : DialogFragment(){
         view.confirmButton.setOnClickListener {
             dismiss()
             Repository.deleteAllProducts()
-            RecyclerAdapter().notifyDataSetChanged()
-
 
         }
         view.cancelButton.setOnClickListener {
