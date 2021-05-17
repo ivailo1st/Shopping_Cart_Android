@@ -22,7 +22,7 @@ class editItem() : DialogFragment(){
             val newName = dialog?.findViewById<EditText>(R.id.editTextChangeItemName)
             val newQuantity = dialog?.findViewById<EditText>(R.id.editTextChangeNumber)
 
-            Repository.updateProduct(newName?.text.toString(), if(newQuantity?.text.toString()==""){ newQuantity?.text.toString().toInt() } else{0})
+            Repository.updateProduct(newName?.text.toString(), if(newQuantity?.text.toString() !=""){ newQuantity?.text.toString().toInt() } else{0})
 
 
         }
